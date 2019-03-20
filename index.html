@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Vue.js App</title>
+  <link href="css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <header id="header">
+  <nav>
+    <div class="nav-wrapper blue darken-3">
+      <a href="#" class="brand-logo center">GOrikatsu</a>
+    </div>
+  </nav>
+  </header>
+  <main>
+  <div id="app" class="row">
+<!-- 新規登録 -->
+    <div class="left col s3">
+      <a @click="show=!show" class="waves-effect waves-light btn white black-text">新規登録</a>
+      <transition>
+      <div v-if="show" class="addList row">
+        <div>
+          <form @submit.prevent="addlist">
+            名前<input type="text" v-model="name">
+            年齢<input type="number" v-model="age">
+            職業<input type="text" v-model="job">
+            写真<input type="text" v-model="image">
+            <input type="submit" value="追加">
+          </form>
+        </div>
+      </div>
+      </transition>
+    </div>
+<!-- ソート機能 -->
+    <div class="right col s3">
+      <a @click="show1=!show1" class="waves-effect waves-light btn right white black-text">検索条件</a>
+      <transition>
+      <div v-if="show1" class="sort">
+        <input v-model.number="bottom_age">歳以上
+        <input v-model.number="top_age">歳以下
+      </div>
+      </transition>
+    </div>
+    <div class="right">
+      <a @click="order=!order" class="waves-effect waves-light btn right white black-text">年齢順に並び替え</a>
+    </div>
+<!-- コンテンツ一覧 -->
+    <div class="container clearfix">
+      <div class="row">
+        <div v-for="(list,index) in sorted" v-bind:key="list.id" class="card col s6 m6">
+          <div class="card-image">
+            <img v-bind:src="list.image">
+            <div class="card-title">
+            <i class="medium material-icons" v-bind:class="{like: list.like}" @click="list.like=!list.like">favorite</i>
+            </div>
+          </div>
+          <p class="center-align">{{ list.name }} {{ list.age }}歳</p>
+          <p class="center-align">{{ list.job }}</p>
+          </form>
+          <span @click="deletelist(index)">[報告する]</span>
+          <div class="comment">
+            <button @click="commentbox=!commentbox">コメントする</button>
+            <p class="card">{{ list.comment }}</p>
+            <textarea v-if="commentbox"v-model="list.comment"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-on:click="scrollTop" class="center clearfix">
+      ページ上部へ移動
+    </div>
+  </div>
+
+
+  </main>
+  <footer>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.17.1/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.5/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@12.1.5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
